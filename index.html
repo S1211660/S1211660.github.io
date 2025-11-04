@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xander Kaandorp - HBO-ICT Tweedejaars</title>
+    <title>Xander Kaandorp - DevLog</title>
     <style>
         * {
             margin: 0;
@@ -29,8 +29,8 @@
             overflow-x: hidden;
         }
 
-        /* Navigation Tabs */
-        .tab-navigation {
+        /* Navigation */
+        .nav {
             position: fixed;
             top: 0;
             width: 100%;
@@ -40,102 +40,57 @@
             border-bottom: 1px solid rgba(0, 217, 255, 0.1);
         }
 
-        .tab-container {
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 70px;
         }
 
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
             color: var(--accent);
-            padding: 1rem 0;
         }
 
-        .tabs {
+        .nav-links {
             display: flex;
-            gap: 0;
+            gap: 2rem;
             list-style: none;
         }
 
-        .tab-btn {
-            background: none;
-            border: none;
+        .nav-links a {
             color: var(--text-secondary);
-            padding: 1.5rem 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
+            text-decoration: none;
+            transition: color 0.3s;
             font-size: 1rem;
-            border-bottom: 3px solid transparent;
-            position: relative;
         }
 
-        .tab-btn:hover {
-            color: var(--text-primary);
-        }
-
-        .tab-btn.active {
+        .nav-links a:hover,
+        .nav-links a.active {
             color: var(--accent);
-            border-bottom-color: var(--accent);
         }
 
-        /* Content Area */
-        .content-wrapper {
-            margin-top: 80px;
-            min-height: calc(100vh - 80px);
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Section Styles */
-        section {
+        /* Main Content */
+        .main-content {
+            margin-top: 70px;
+            min-height: calc(100vh - 140px);
             padding: 4rem 2rem;
             max-width: 1200px;
-            margin: 0 auto;
-            min-height: calc(100vh - 160px);
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        h2 {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: var(--accent);
+        /* Hero Section */
+        .hero {
             text-align: center;
+            padding: 4rem 0 6rem;
         }
 
-        /* Home/Hero Section */
-        .hero-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            min-height: 70vh;
-        }
-
-        .hero-content h1 {
+        .hero h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--accent), #00ff88);
@@ -144,408 +99,340 @@
             background-clip: text;
         }
 
-        .hero-content p {
-            font-size: 1.5rem;
+        .hero p {
+            font-size: 1.3rem;
             color: var(--text-secondary);
             margin-bottom: 2rem;
         }
 
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: var(--accent);
-            color: var(--bg-primary);
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
+        /* Blog Controls */
+        .blog-header {
+            margin-bottom: 3rem;
+            text-align: center;
         }
 
-        .cta-button:hover {
+        .blog-header h2 {
+            color: var(--accent);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
         }
 
-        /* About Section */
-        .about-content {
-            max-width: 800px;
-            margin: 0 auto;
-            color: var(--text-secondary);
-            font-size: 1.1rem;
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--accent);
+            border: 1px solid var(--accent);
         }
 
-        .about-content p {
-            margin-bottom: 1.5rem;
-        }
-
-        /* Projects Grid */
-        .projects-grid {
+        /* Blog Posts Grid */
+        .blog-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 2rem;
+            margin-bottom: 3rem;
         }
 
-        .project-card {
+        .blog-post {
             background: var(--card-bg);
             border-radius: 12px;
             padding: 2rem;
-            transition: transform 0.3s, box-shadow 0.3s;
             border: 1px solid rgba(0, 217, 255, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
         }
 
-        .project-card:hover {
+        .blog-post:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
         }
 
-        .project-card h3 {
+        .blog-post h3 {
             color: var(--accent);
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
         }
 
-        .project-card p {
+        .blog-post-date {
             color: var(--text-secondary);
+            font-size: 0.9rem;
             margin-bottom: 1rem;
         }
 
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .tech-tag {
+        .blog-post-category {
+            display: inline-block;
             background: rgba(0, 217, 255, 0.1);
             color: var(--accent);
             padding: 0.3rem 0.8rem;
             border-radius: 20px;
-            font-size: 0.9rem;
-        }
-
-        .project-links {
-            margin-top: 1rem;
-            display: flex;
-            gap: 1rem;
-        }
-
-        .project-link {
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: opacity 0.3s;
-        }
-
-        .project-link:hover {
-            opacity: 0.7;
-        }
-
-        /* Skills Section */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .skill-category {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 217, 255, 0.1);
-        }
-
-        .skill-category h3 {
-            color: var(--accent);
+            font-size: 0.85rem;
             margin-bottom: 1rem;
         }
 
-        .skill-category ul {
-            list-style: none;
-        }
-
-        .skill-category li {
+        .blog-post-excerpt {
             color: var(--text-secondary);
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .skill-category li::before {
-            content: "▹";
-            position: absolute;
-            left: 0;
+        /* Post Detail View */
+        .post-detail {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 3rem;
+            border: 1px solid rgba(0, 217, 255, 0.1);
+        }
+
+        .post-detail h2 {
             color: var(--accent);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
         }
 
-        /* Contact Section */
-        .contact-content {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .contact-content p {
+        .post-detail-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
             color: var(--text-secondary);
+        }
+
+        .post-detail-content {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .back-btn {
             margin-bottom: 2rem;
         }
 
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
             color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s;
-            font-size: 1.1rem;
         }
 
-        .contact-link:hover {
+        .empty-state h3 {
             color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
         }
 
         /* Footer */
         footer {
-            background: var(--bg-secondary);
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-secondary);
-            border-top: 1px solid rgba(0, 217, 255, 0.1);
-        }
-
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 1.5rem;
-            cursor: pointer;
+            padding: 1rem;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .hero-content h1 {
+            .hero h1 {
                 font-size: 2.5rem;
             }
 
-            .hero-content p {
-                font-size: 1.2rem;
+            .blog-grid {
+                grid-template-columns: 1fr;
             }
 
-            .tabs {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--bg-secondary);
-                flex-direction: column;
+            .post-detail {
+                padding: 2rem 1.5rem;
             }
 
-            .tabs.active {
-                display: flex;
-            }
-
-            .tab-btn {
-                border-bottom: none;
-                border-left: 3px solid transparent;
-                text-align: left;
-                padding: 1rem 2rem;
-            }
-
-            .tab-btn.active {
-                border-left-color: var(--accent);
-                border-bottom-color: transparent;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            section {
-                padding: 2rem 1rem;
-            }
-
-            h2 {
+            .post-detail h2 {
                 font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .main-content {
+                padding: 2rem 1rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Tab Navigation -->
-    <nav class="tab-navigation">
-        <div class="tab-container">
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
             <div class="logo">Xander Kaandorp</div>
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
-            <ul class="tabs" id="tab-menu">
-                <li><button class="tab-btn active" onclick="showTab('home')">Home</button></li>
-                <li><button class="tab-btn" onclick="showTab('about')">Over</button></li>
-                <li><button class="tab-btn" onclick="showTab('devlog')">DevLog</button></li>
-                <li><button class="tab-btn" onclick="showTab('projects')">Projecten</button></li>
-                <li><button class="tab-btn" onclick="showTab('skills')">Skills</button></li>
-                <li><button class="tab-btn" onclick="showTab('contact')">Contact</button></li>
+            <ul class="nav-links">
+                <li><a href="#" class="active" onclick="showView('home')">Home</a></li>
+                <li><a href="#" onclick="showView('blog')">DevLog</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Content Wrapper -->
-    <div class="content-wrapper">
-        <!-- Home Tab -->
-        <div id="home" class="tab-content active">
-            <section>
-                <div class="hero-content">
-                    <h1>Welkom op de website van Xander Kaandorp!</h1>
-                    <p>HBO-ICT Student Tweedejaars</p>
-                    <button class="cta-button" onclick="showTab('projects')">Bekijk mijn projecten</button>
-                </div>
-            </section>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Home View -->
+        <div id="home-view" class="view active">
+            <div class="hero">
+                <h1>DevLog Portfolio</h1>
+                <p>HBO-ICT | OOSDD Semester</p>
+                <button class="btn" onclick="showView('blog')">Bekijk DevLog</button>
+            </div>
         </div>
 
-        <!-- About Tab -->
-        <div id="about" class="tab-content">
-            <section>
-                <h2>Over mij</h2>
-                <div class="about-content">
-                    <p>
-                        Ik ben een tweedejaars voltijd HBO-ICT student bij Windesheim in Almere.
-                        Deze site is gemaakt om mijn DevLog bij te houden en eventueel andere projecten die ik maak.
-                        Tijdens mijn studie maak ik meerdere wijzigingen aan de site waarmee ik hoop meer
-                        ervaring met het maken van websites te krijgen. Op dit moment volg ik het vak OOSDD.
-                    </p>
-                </div>
-            </section>
+        <!-- Blog View -->
+        <div id="blog-view" class="view">
+            <div class="blog-header">
+                <h2>DevLog Berichten</h2>
+                <p>Mijn voortgang tijdens het OOSDD vak</p>
+            </div>
+            <div id="blog-posts" class="blog-grid"></div>
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <h3>Nog geen berichten</h3>
+                <p>Binnenkort verschijnen hier mijn DevLog berichten.</p>
+            </div>
         </div>
 
-        <!-- DevLog Tab -->
-        <div id="devlog" class="tab-content">
-            <section>
-                <h2>DevLog</h2>
-                <div class="about-content">
-                    <p>
-                        Hier werk ik mijn DevLog vraag verder uit.
-                    </p>
-                </div>
-            </section>
-        </div>
-
-        <!-- Projects Tab -->
-        <div id="projects" class="tab-content">
-            <section>
-                <h2>Projecten</h2>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <h3>Project Naam Template</h3>
-                        <p>Omschrijving van het project.</p>
-                        <div class="tech-tags">
-                            <span class="tech-tag">Bijvoorbeeld Python</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="project-link">Bijvoorbeeld GitHub Link</a>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-        </div>
-
-        <!-- Skills Tab -->
-        <div id="skills" class="tab-content">
-            <section>
-                <h2>Skills</h2>
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h3>Programmeren</h3>
-                        <ul>
-                            <li>Python</li>
-                            <li>C#</li>
-                            <li>SQL</li>
-                        </ul>
-                    </div>
-
-                    <div class="skill-category">
-                        <h3>Technologieën</h3>
-                        <ul>
-                            <li>Git & GitHub</li>
-                        </ul>
-                    </div>
-
-                </div>
-            </section>
-        </div>
-
-        <!-- Contact Tab -->
-        <div id="contact" class="tab-content">
-            <section>
-                <h2>Neem contact op</h2>
-                <div class="contact-content">
-                    <p>
-                        Bereik mij via mijn mail of bezoek mijn GitHub account.
-                    </p>
-                    <div class="contact-links">
-                        <a href="mailto:xander.kaandorp@windesheim.nl" class="contact-link">
-                            xander.kaandorp@windesheim.nl
-                        </a>
-                        <a href="https://github.com/S1211660" class="contact-link" target="_blank">
-                            GitHub
-                        </a>
-                    </div>
-                </div>
-            </section>
+        <!-- Post Detail View -->
+        <div id="post-detail-view" class="view">
+            <button class="btn btn-secondary back-btn" onclick="showView('blog')">← Terug naar overzicht</button>
+            <div id="post-detail-content" class="post-detail"></div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Xander Kaandorp. Gemaakt met HTML, CSS, en JavaScript.</p>
     </footer>
 
     <script>
-        // Tab switching function
-        function showTab(tabId) {
-            // Hide all tab contents
-            const allTabs = document.querySelectorAll('.tab-content');
-            allTabs.forEach(tab => {
-                tab.classList.remove('active');
-            });
+        // ============================================
+        // BLOG POSTS
+        // ============================================
+        const blogPosts = [
+            {
+                id: 'voorbeeld-post',
+                title: 'Welkom op mijn DevLog',
+                category: 'Algemeen',
+                date: '11-4-2025',
+                excerpt: 'Dit is mijn eerste DevLog post. Hier ga ik mijn voortgang tijdens het OOSDD vak bijhouden.',
+                content: `Welkom op mijn DevLog!
 
-            // Remove active class from all buttons
-            const allButtons = document.querySelectorAll('.tab-btn');
-            allButtons.forEach(btn => {
-                btn.classList.remove('active');
-            });
+In deze blog ga ik mijn leerproces en voortgang tijdens het OOSDD (Object Oriented Software Design & Development) vak documenteren.
 
-            // Show selected tab
-            document.getElementById(tabId).classList.add('active');
+Per datapunt zal ik reflecteren op:
+- Wat ik heb geleerd
+- Welke uitdagingen ik tegenkwam
+- Feedback die ik heb ontvangen
+- Mijn vervolgstappen
 
-            // Add active class to clicked button
-            event.target.classList.add('active');
+Dit is onderdeel van mijn focusvraag: "Hoe kan ik mijn bewustzijn van complexe systemen en situaties verbeteren om effectiever te navigeren en te reageren op veranderende omstandigheden?"
 
-            // Close mobile menu after selection
-            document.getElementById('tab-menu').classList.remove('active');
+Ik gebruik het 4E model (Ervaring, Expressie, Exploratie, Evaluatie) om mijn reflecties te structureren.`
+            },
 
-            // Scroll to top
+        ];
+
+        let currentView = 'home';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            loadPosts();
+        });
+
+        // View Management
+        function showView(viewName) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewName + '-view').classList.add('active');
+
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            if (viewName === 'home') {
+                document.querySelectorAll('.nav-links a')[0].classList.add('active');
+            } else if (viewName === 'blog') {
+                document.querySelectorAll('.nav-links a')[1].classList.add('active');
+            }
+
+            currentView = viewName;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Mobile menu toggle
-        function toggleMobileMenu() {
-            const menu = document.getElementById('tab-menu');
-            menu.classList.toggle('active');
+        // Load Posts
+        function loadPosts() {
+            const container = document.getElementById('blog-posts');
+            const emptyState = document.getElementById('empty-state');
+
+            if (blogPosts.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            // Sort by date (newest first)
+            const sortedPosts = [...blogPosts].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            container.innerHTML = sortedPosts.map(post => `
+                <div class="blog-post" onclick="viewPost('${post.id}')">
+                    <h3>${post.title}</h3>
+                    <div class="blog-post-date">${formatDate(post.date)}</div>
+                    <span class="blog-post-category">${post.category}</span>
+                    <p class="blog-post-excerpt">${post.excerpt}</p>
+                </div>
+            `).join('');
+        }
+
+        // View Post Detail
+        function viewPost(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (!post) return;
+
+            document.getElementById('post-detail-content').innerHTML = `
+                <h2>${post.title}</h2>
+                <div class="post-detail-meta">
+                    <span>${formatDate(post.date)}</span>
+                    <span class="blog-post-category">${post.category}</span>
+                </div>
+                <div class="post-detail-content">${post.content}</div>
+            `;
+
+            showView('post-detail');
+        }
+
+        // Helper Functions
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('nl-NL', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
         }
     </script>
 </body>
