@@ -29,7 +29,6 @@
             overflow-x: hidden;
         }
 
-        /* Navigation */
         .nav {
             position: fixed;
             top: 0;
@@ -54,6 +53,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             color: var(--accent);
+            cursor: pointer;
         }
 
         .nav-links {
@@ -67,14 +67,17 @@
             text-decoration: none;
             transition: color 0.3s;
             font-size: 1rem;
+            cursor: pointer;
+            padding-bottom: 5px;
+            border-bottom: 2px solid transparent;
         }
 
         .nav-links a:hover,
         .nav-links a.active {
             color: var(--accent);
+            border-bottom: 2px solid var(--accent);
         }
 
-        /* Main Content */
         .main-content {
             margin-top: 70px;
             min-height: calc(100vh - 140px);
@@ -84,28 +87,6 @@
             margin-right: auto;
         }
 
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 4rem 0 6rem;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--accent), #00ff88);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        /* Blog Controls */
         .blog-header {
             margin-bottom: 3rem;
             text-align: center;
@@ -147,7 +128,6 @@
             border: 1px solid var(--accent);
         }
 
-        /* Blog Posts Grid */
         .blog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -162,6 +142,8 @@
             border: 1px solid rgba(0, 217, 255, 0.1);
             transition: all 0.3s;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
         }
 
         .blog-post:hover {
@@ -171,14 +153,8 @@
 
         .blog-post h3 {
             color: var(--accent);
-            margin-bottom: 0.5rem;
-            font-size: 1.4rem;
-        }
-
-        .blog-post-date {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
             margin-bottom: 1rem;
+            font-size: 1.4rem;
         }
 
         .blog-post-category {
@@ -189,6 +165,7 @@
             border-radius: 20px;
             font-size: 0.85rem;
             margin-bottom: 1rem;
+            align-self: flex-start;
         }
 
         .blog-post-excerpt {
@@ -199,7 +176,6 @@
             overflow: hidden;
         }
 
-        /* Post Detail View */
         .post-detail {
             background: var(--card-bg);
             border-radius: 12px;
@@ -227,6 +203,18 @@
             white-space: pre-wrap;
         }
 
+        .post-detail-content b {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .post-detail-content h3 {
+            color: var(--text-primary);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
         .back-btn {
             margin-bottom: 2rem;
         }
@@ -251,17 +239,16 @@
             display: block;
         }
 
-        /* Footer */
         footer {
             padding: 1rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 217, 255, 0.1);
+            margin-top: auto;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
             .blog-grid {
                 grid-template-columns: 1fr;
             }
@@ -286,108 +273,189 @@
 </head>
 
 <body>
-    <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
-            <div class="logo">Xander Kaandorp</div>
+            <div class="logo" onclick="switchSemester('Semester 1')">Xander Kaandorp</div>
             <ul class="nav-links">
-                <li><a href="#" class="active" onclick="showView('home')">Home</a></li>
-                <li><a href="#" onclick="showView('blog')">DevLog</a></li>
+                <li><a href="#" id="nav-sem1" onclick="switchSemester('Semester 1')">Semester 1</a></li>
+                <li><a href="#" id="nav-sem2" onclick="switchSemester('Semester 2')">Semester 2</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="main-content">
-        <!-- Home View -->
-        <div id="home-view" class="view active">
-            <div class="hero">
-                <h1>DevLog Portfolio</h1>
-                <p>HBO-ICT | OOSDD Semester</p>
-                <button class="btn" onclick="showView('blog')">Bekijk DevLog</button>
-            </div>
-        </div>
 
-        <!-- Blog View -->
-        <div id="blog-view" class="view">
+        <div id="blog-view" class="view active">
             <div class="blog-header">
-                <h2>DevLog Berichten</h2>
-                <p>Mijn voortgang tijdens het OOSDD vak</p>
+                <h2 id="page-title">Semester 1</h2>
+                <p id="page-subtitle">OOSDD & Persoonlijk Leiderschap</p>
             </div>
             <div id="blog-posts" class="blog-grid"></div>
+
             <div id="empty-state" class="empty-state" style="display: none;">
                 <h3>Nog geen berichten</h3>
-                <p>Binnenkort verschijnen hier mijn DevLog berichten.</p>
+                <p>Er zijn nog geen DevLog berichten voor dit semester.</p>
             </div>
         </div>
 
-        <!-- Post Detail View -->
         <div id="post-detail-view" class="view">
-            <button class="btn btn-secondary back-btn" onclick="showView('blog')">← Terug naar overzicht</button>
+            <button class="btn btn-secondary back-btn" onclick="showBlogOverview()">← Terug naar overzicht</button>
             <div id="post-detail-content" class="post-detail"></div>
         </div>
     </div>
 
     <footer>
+        2026 Xander Kaandorp - DevLog Portfolio
     </footer>
 
     <script>
-        // ============================================
-        // BLOG POSTS
-        // ============================================
         const blogPosts = [
+            // 1. START
             {
-                id: 'voorbeeld-post',
-                title: 'Welkom op mijn DevLog',
-                category: 'Algemeen',
-                date: '11-4-2025',
-                excerpt: 'Dit is mijn eerste DevLog post. Hier ga ik mijn voortgang tijdens het OOSDD vak bijhouden.',
-                content: `Welkom op mijn DevLog!
+                id: 'start-focusvraag',
+                semester: 'Semester 1',
+                title: 'Start: Mijn Focusvraag',
+                category: 'Persoonlijk Leiderschap',
+                excerpt: 'De start van mijn ontwikkelingstraject en de keuze voor mijn focusvraag binnen de dimensie "Denken".',
+                content: `Aan het begin van dit semester heb ik gekozen voor de dimensie **Denken**.
 
-In deze blog ga ik mijn leerproces en voortgang tijdens het OOSDD (Object Oriented Software Design & Development) vak documenteren.
+Mijn focusvraag luidt:
+"Hoe kan ik mijn bewustzijn van complexe systemen en situaties verbeteren om effectiever te navigeren en te reageren op veranderende omstandigheden?"
 
-Per datapunt zal ik reflecteren op:
-- Wat ik heb geleerd
-- Welke uitdagingen ik tegenkwam
-- Feedback die ik heb ontvangen
-- Mijn vervolgstappen
-
-Dit is onderdeel van mijn focusvraag: "Hoe kan ik mijn bewustzijn van complexe systemen en situaties verbeteren om effectiever te navigeren en te reageren op veranderende omstandigheden?"
-
-Ik gebruik het 4E model (Ervaring, Expressie, Exploratie, Evaluatie) om mijn reflecties te structureren.`
+Ik gebruik het **4E model** als leidraad om meer grip te krijgen op groepsprocessen en onverwachte wendingen.`
             },
 
+            // 2. METHODIEK
+            {
+                id: '4e-model-reflectie',
+                semester: 'Semester 1',
+                title: 'Reflectie methodiek: Het 4E Model',
+                category: 'Persoonlijk Leiderschap',
+                excerpt: 'Hoe ik het 4E-model (Exploreren, Experimenteren, Ervaren, Evalueren) heb ingezet om mijn ontwikkelproces te structureren.',
+                content: `Om mijn professionele ontwikkeling dit semester structuur te geven, heb ik gebruikgemaakt van het **4E-model**.
+
+### 1. Exploreren (Verkennen)
+Voor Sprint 2 kregen we de opdracht om complexe features toe te voegen (versus-mode, karaoke). Ik heb deze geëxploreerd door ze op te breken in kleinere user stories en use cases. Dit gaf overzicht in de benodigde techniek.
+
+### 2. Experimenteren (Uitproberen)
+Ik heb geëxperimenteerd met samenwerkingsvormen:
+- **Poging 1:** Taken verdelen op expertise (documentatie vs code). Dit faalde door afhankelijkheden.
+- **Poging 2:** Scrum Poker introduceren en taken "verticaal" verdelen (iedereen doet alles voor één story). Dit werkte veel beter.
+
+### 3. Ervaren (Beleven)
+Ik ervaarde in Sprint 2 stress door de verkeerde taakverdeling. In Sprint 3 ervaarde ik juist een "flow" doordat we niet op elkaar hoefden te wachten.
+
+### 4. Evalueren (Reflecteren)
+Mijn conclusie is dat focus op de korte termijn mij flexibeler maakt. Ik heb geleerd sneller in te grijpen bij communicatieproblemen.`
+            },
+
+            // 3. TERUGBLIK
+            {
+                id: 'periode-1-datapunten',
+                semester: 'Semester 1',
+                title: 'Terugblik Periode 1: Technische Basis',
+                category: 'Datapunten',
+                excerpt: 'Een samenvatting van mijn leerproces tijdens de eerste datapunten: Gitflow, Testplannen en C#.',
+                content: `De eerste periode stond in het teken van de basis leggen.
+
+**Git & Versiebeheer**
+Ik heb geleerd Gitflow correct toe te passen. Feedback van peers wees me erop 'main' als default te gebruiken.
+
+**Testen**
+Mijn testplan sloot eerst niet goed aan op de risicoanalyse. Ik heb geleerd dat de testinspanning moet matchen met het risico.
+
+**Code Kwaliteit**
+Ik kreeg feedback dat ik creatiever moest coderen en minder op voorbeelden moest leunen. In latere opdrachten heb ik mij strenger gehouden aan het SRP-principe en code smells.`
+            },
+
+            // 4. SAMENWERKEN
+            {
+                id: 'sprint-project',
+                semester: 'Semester 1',
+                title: 'Samenwerken in Sprints (Sprint 2 & 3)',
+                category: 'Project',
+                excerpt: 'Reflectie op het groepsproject: van user stories verdelen tot omgaan met afhankelijkheden en het Scrum-proces.',
+                content: `Tijdens de tweede periode hebben we gewerkt aan een type-applicatie.
+
+**Sprint 2: Uitdagingen**
+We verdeelden taken aanvankelijk op basis van documentatie vs. code. Dit zorgde voor wachttijden. Ook kwamen teamleden in tijdsnood, waarna ik taken heb overgenomen.
+
+**Sprint 3: Verbeterde Aanpak**
+We hebben geleerd van de vorige keer. We verdeelden taken zo dat één persoon een hele user story oppakte. Ook introduceerden we **Scrum Poker** voor een eerlijke verdeling. Dit zorgde voor een betere flow en minder afhankelijkheden.`
+            },
+
+            // 5. EINDREFLECTIE
+            {
+                id: 'eindreflectie-highstake',
+                semester: 'Semester 1',
+                title: 'Eindreflectie & Professionele Identiteit',
+                category: 'Persoonlijk Leiderschap',
+                excerpt: 'Een terugblik op mijn focusvraag, zelfinzichten en de impact op mijn ontwikkeling als ICT-professional aan het einde van dit semester.',
+                content: `In deze eindreflectie geef ik antwoord op de kernvragen van mijn persoonlijke ontwikkeling dit semester.
+
+**1. Wat is mijn focusvraag en welke vaardigheden ontwikkel ik daarmee?**
+Mijn focusvraag voor dit cluster was: *"Hoe kan ik mijn bewustzijn van complexe systemen en situaties verbeteren om effectiever te navigeren en te reageren op veranderende omstandigheden?"*. 
+De vaardigheden waar ik mij op heb gericht zijn samenwerken, feedback geven en ontvangen, en strategisch denkvermogen.
+
+**2. Hoe heb ik uitvoering gegeven aan het beantwoorden van mijn focusvraag?**
+Ik heb mij tijdens het project in periode 2 bewust meer gericht op de korte termijn. In plaats van te ver vooruit te kijken, plande ik sprints aan het begin met mijn team en focuste ik mij daarna van dag tot dag. Hierdoor kon ik beter inspelen op wat er op dat moment nodig was.
+
+**3. Welke zelfinzichten heb ik daaruit verworven?**
+Ik heb geleerd dat ik moeite had met situaties die niet liepen zoals verwacht. Mijn neiging was om te veel vooruit te denken om zekerheid te creëren. Door flexibeler te zijn, merkte ik dat ik minder bleef hangen in teleurstelling en mijn teamgenoten beter kon ondersteunen.
+
+**4. Wat is de impact van dit leerproces voor mij als ICT’er?**
+Ik ben flexibeler geworden in de uitvoering van mijn opdrachten en kan sneller schakelen als de situatie daarom vraagt. Dit maakt mij een betere professional omdat softwareontwikkeling vaak veranderlijk is.
+
+**5. Welke feedback heb ik ontvangen?**
+Gedurende het semester heb ik feedback ontvangen op zowel technische aspecten (Gitflow, testdocumentatie) als op soft skills. Een belangrijk punt was om mijn voortgangsdocumentatie uitgebreider te beschrijven. Ook heb ik geleerd mijn feedback aan anderen beter te onderbouwen.
+
+**6. Hoe verbind ik mijn persoonlijke ontwikkeling aan het ICT-werkveld?**
+In periode 2 heb ik veel geleerd over het uitvoeren van het Scrum-proces en samenwerken via Git. Het toepassen van technieken zoals Scrum Poker om consensus te bereiken over de werklast was een waardevolle praktijkervaring.
+
+**7. Wat is de impact op de ICT-producten die ik heb ontwikkeld?**
+Doordat ik meer focuste op de korte termijn en flexibiliteit, is het gelukt om samen met mijn team meer functionaliteiten toe te voegen aan onze applicatie en obstakels beter op te vangen.`
+            },
         ];
 
-        let currentView = 'home';
+        let currentActiveSemester = 'Semester 1';
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', function () {
-            loadPosts();
+            switchSemester('Semester 1');
         });
 
-        // View Management
-        function showView(viewName) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(viewName + '-view').classList.add('active');
+        function switchSemester(semesterName) {
+            currentActiveSemester = semesterName;
 
             document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-            if (viewName === 'home') {
-                document.querySelectorAll('.nav-links a')[0].classList.add('active');
-            } else if (viewName === 'blog') {
-                document.querySelectorAll('.nav-links a')[1].classList.add('active');
+
+            if (semesterName === 'Semester 1') {
+                document.getElementById('nav-sem1').classList.add('active');
+            } else if (semesterName === 'Semester 2') {
+                document.getElementById('nav-sem2').classList.add('active');
             }
 
-            currentView = viewName;
+            document.getElementById('page-title').innerText = semesterName;
+            document.getElementById('page-subtitle').innerText =
+                semesterName === 'Semester 1' ? 'OOSDD & Persoonlijk Leiderschap' : 'Toekomstige Projecten';
+
+            loadPosts(semesterName);
+
+            showBlogOverview();
+        }
+
+        function showBlogOverview() {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById('blog-view').classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Load Posts
-        function loadPosts() {
+        function loadPosts(semesterFilter) {
             const container = document.getElementById('blog-posts');
             const emptyState = document.getElementById('empty-state');
 
-            if (blogPosts.length === 0) {
+            const filteredPosts = blogPosts.filter(post => post.semester === semesterFilter);
+
+            if (filteredPosts.length === 0) {
                 container.innerHTML = '';
                 emptyState.style.display = 'block';
                 return;
@@ -395,44 +463,37 @@ Ik gebruik het 4E model (Ervaring, Expressie, Exploratie, Evaluatie) om mijn ref
 
             emptyState.style.display = 'none';
 
-            // Sort by date (newest first)
-            const sortedPosts = [...blogPosts].sort((a, b) => new Date(b.date) - new Date(a.date));
+            const displayPosts = filteredPosts;
 
-            container.innerHTML = sortedPosts.map(post => `
+            container.innerHTML = displayPosts.map(post => `
                 <div class="blog-post" onclick="viewPost('${post.id}')">
                     <h3>${post.title}</h3>
-                    <div class="blog-post-date">${formatDate(post.date)}</div>
                     <span class="blog-post-category">${post.category}</span>
                     <p class="blog-post-excerpt">${post.excerpt}</p>
                 </div>
             `).join('');
         }
 
-        // View Post Detail
         function viewPost(postId) {
             const post = blogPosts.find(p => p.id === postId);
             if (!post) return;
 
+            let formattedContent = post.content
+                .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+                .replace(/\n/g, '<br>');
+
             document.getElementById('post-detail-content').innerHTML = `
                 <h2>${post.title}</h2>
                 <div class="post-detail-meta">
-                    <span>${formatDate(post.date)}</span>
                     <span class="blog-post-category">${post.category}</span>
                 </div>
-                <div class="post-detail-content">${post.content}</div>
+                <div class="post-detail-content">${formattedContent}</div>
             `;
 
-            showView('post-detail');
-        }
-
-        // Helper Functions
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('nl-NL', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById('post-detail-view').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
